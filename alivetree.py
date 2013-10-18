@@ -332,7 +332,7 @@ class OdtDocument():
         fw.write('        <dc:language>%s</dc:language>' % self.language + os.linesep)
         fw.write('        <dc:publisher></dc:publisher>' + os.linesep)
         fw.write('        <dc:title>%s</dc:title>' % self.meta_title + os.linesep)
-        fw.write('        <meta name="librebook" content="beta 0.1"/>' + os.linesep)
+        fw.write('        <meta name="alivetree" content="beta 0.1"/>' + os.linesep)
         fw.write('        <meta name="cover" content="cover.jpg"/>' + os.linesep)
         fw.write('    </metadata>' + os.linesep)
         fw.write('    <manifest>' + os.linesep)
