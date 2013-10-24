@@ -102,6 +102,8 @@ class OdtDocument():
 
         break_before = unicode("")
 
+        class_tag = unicode("")
+
         try:
             paragraph_style = unicode("p-style-%s" % self.style_textalignment[style_name])
 
@@ -114,16 +116,19 @@ class OdtDocument():
         except:
             pass
 
+        # make up the class tag for styling the paragraph
+        class_tag = unicode("class=\"%s %s\"" % (paragraph_style, break_before))
+
         if outline_level == "paragraph":
             if str:
-                sret = unicode('<p class="%s %s">%s</p>' % (paragraph_style, break_before, str)) + os.linesep
+                sret = unicode('<p %s>%s</p>' % (class_tag, str)) + os.linesep
             else:
-                sret = unicode('<p class="%s %s"></p>' % (paragraph_style, break_before)) + os.linesep
+                sret = unicode('<p %s></p>' % class_tag) + os.linesep
 
         else:
                 self.heading_id_count = self.heading_id_count + 1
                 s_id_cnt = unicode(self.heading_id_count)
-                sret = unicode('<h%s id="heading_id_%s">%s</h%s>' % (outline_level, s_id_cnt, str, outline_level)) + os.linesep
+                sret = unicode('<h%s id="heading_id_%s" %s>%s</h%s>' % (outline_level, s_id_cnt, class_tag, str, outline_level)) + os.linesep
                 self.heading_list.append([unicode(str), unicode(outline_level)])
 
         return sret
@@ -419,7 +424,7 @@ class OdtDocument():
         fw.write("<title>Table of contents</title>" + os.linesep)
         fw.write("</head>" + os.linesep)
         fw.write("<body>" + os.linesep)
-        fw.write("<h1>%s</h1>" % self.meta_title + os.linesep)
+        fw.write("<h1 class=\"p-style-center\">%s</h1>" % self.meta_title + os.linesep)
         fw.write("<div>" + os.linesep)
 
         for i in range(1, len(self.heading_list)):
@@ -439,13 +444,11 @@ class OdtDocument():
         fw = open(self.stylesheet_name, 'w')
 
         fw.write("h1, h2 {" + os.linesep)
-        fw.write("    text-align: center;" + os.linesep)
-        fw.write("    page-break-before: always;" + os.linesep)
+        fw.write("    page-break-after: avoid;" + os.linesep)
         fw.write("    margin-top: 0;" + os.linesep)
         fw.write("    margin-bottom: 1em;" + os.linesep)
         fw.write("}" + os.linesep)
-        fw.write("h3 {" + os.linesep)
-        fw.write("    text-align: center;        " + os.linesep)
+        fw.write("h3, h4, h5, h6 {" + os.linesep)
         fw.write("    page-break-after: avoid;" + os.linesep)
         fw.write("    margin-top: 1em;" + os.linesep)
         fw.write("    margin-bottom: 2em;" + os.linesep)
