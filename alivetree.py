@@ -126,10 +126,10 @@ class OdtDocument():
                 sret = unicode('<p %s></p>' % class_tag) + os.linesep
 
         else:
-                self.heading_id_count = self.heading_id_count + 1
-                s_id_cnt = unicode(self.heading_id_count)
-                sret = unicode('<h%s id="heading_id_%s" %s>%s</h%s>' % (outline_level, s_id_cnt, class_tag, str, outline_level)) + os.linesep
-                self.heading_list.append([unicode(str), unicode(outline_level)])
+            self.heading_id_count = self.heading_id_count + 1
+            s_id_cnt = unicode(self.heading_id_count)
+            sret = unicode('<h%s id="heading_id_%s" %s>%s</h%s>' % (outline_level, s_id_cnt, class_tag, str, outline_level)) + os.linesep
+            self.heading_list.append([unicode(str), unicode(outline_level)])
 
         return sret
 
@@ -400,7 +400,7 @@ class OdtDocument():
         for i in range(1, len(self.heading_list)):
             fw.write('      <navPoint id="navPoint-%s" playOrder="%s">' % (unicode(i), unicode(i)) + os.linesep)
             fw.write('        <navLabel>' + os.linesep)
-            fw.write('          <text>%s</text>' % self.heading_list[i][0] + os.linesep)
+            fw.write('          <text>%s</text>' % (self.heading_list[i][0]).encode("utf-8") + os.linesep)
             fw.write('        </navLabel>' + os.linesep)
             fw.write('        <content src="%s#heading_id_%s"/>' % (self.filename_out, unicode(i)) + os.linesep)
             fw.write('      </navPoint>' + os.linesep)
@@ -429,7 +429,7 @@ class OdtDocument():
 
         for i in range(1, len(self.heading_list)):
             # to do: different styles according to heading level self.heading_list[i[1]]
-            fw.write("<p class=\"toc-level-%s\"><a href=\"%s#heading_id_%s\">%s</a></p>" % (self.heading_list[i][1], self.filename_out, unicode(i), self.heading_list[i][0]) + os.linesep)
+            fw.write("<p class=\"toc-level-%s\"><a href=\"%s#heading_id_%s\">%s</a></p>" % ((self.heading_list[i][1]).encode("utf-8"), (self.filename_out).encode("utf-8"), str(i), (self.heading_list[i][0]).encode("utf-8")) + os.linesep)
 
         fw.write("</div>" + os.linesep)
         fw.write("</body>" + os.linesep)
@@ -456,18 +456,22 @@ class OdtDocument():
 
         fw.write(".p-style-center {" + os.linesep)
         fw.write("    text-align: center;" + os.linesep)
+        fw.write("    text-indent: 2%;" + os.linesep)
         fw.write("}" + os.linesep)
 
         fw.write(".p-style-left {" + os.linesep)
         fw.write("    text-align: left;" + os.linesep)
+        fw.write("    text-indent: 2%;" + os.linesep)
         fw.write("}" + os.linesep)
 
         fw.write(".p-style-end {" + os.linesep)
         fw.write("    text-align: right;" + os.linesep)
+        fw.write("    text-indent: 2%;" + os.linesep)
         fw.write("}" + os.linesep)
 
         fw.write(".p-style-justify {" + os.linesep)
         fw.write("    text-align: justify;" + os.linesep)
+        fw.write("    text-indent: 2%;" + os.linesep)
         fw.write("}" + os.linesep)
 
         fw.write(".p-style-page-break-before { page-break-before: always; }" + os.linesep)
